@@ -5,7 +5,7 @@ import { Text, View } from '@/components/Themed';
 export default function TabThreeScreen() {
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>This is Tab Three</Text>
+			<Text style={styles.title}>Rhyme</Text>
 		</View>
 	);
 }

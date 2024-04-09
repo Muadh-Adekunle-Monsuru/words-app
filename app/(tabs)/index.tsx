@@ -1,22 +1,15 @@
 import { StyleSheet } from 'react-native';
-import { Link } from 'expo-router';
-import EditScreenInfo from '@/components/EditScreenInfo';
+import { useState } from 'react';
 import { Text, View } from '@/components/Themed';
-import { Pressable } from 'react-native';
+import Buttons from '@/components/Button';
+import TodayFact from '@/components/todayFact';
+import RandomFact from '@/components/randomFact';
 export default function TabOneScreen() {
+	const [todayView, setTodayView] = useState(true);
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Tab Ones</Text>
-			<View
-				style={styles.separator}
-				lightColor='#eee'
-				darkColor='rgba(255,255,255,0.1)'
-			/>
-			<Link href='/home' asChild>
-				<Pressable>
-					<Text>Go To Home</Text>
-				</Pressable>
-			</Link>
+			{todayView ? <TodayFact /> : <RandomFact />}
+			<Buttons setTodayView={setTodayView} todayView={todayView} />
 		</View>
 	);
 }
@@ -24,12 +17,14 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
 		justifyContent: 'center',
+		padding: 30,
+		backgroundColor: '#219ebc',
 	},
 	title: {
-		fontSize: 20,
-		fontWeight: 'bold',
+		fontSize: 35,
+		fontFamily: 'Lora',
+		fontWeight: '500',
 	},
 	separator: {
 		marginVertical: 30,
