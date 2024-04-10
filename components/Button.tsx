@@ -1,17 +1,28 @@
 import React from 'react';
 import tw from 'twrnc';
 import { View, Text } from './Themed';
-import { Pressable } from 'react-native';
+import { Pressable, Keyboard, TouchableWithoutFeedback } from 'react-native';
 
 export default function Buttons({ todayView, setTodayView }) {
 	return (
 		<View
-			style={tw` border rounded-full flex-row justify-center w-1/2 mx-auto mt-20 overflow-hidden shadow-md p-0`}
+			style={tw.style(
+				'border-2',
+				'rounded-full',
+				'flex-row',
+				'justify-center',
+				'w-3/4',
+				'mx-auto',
+				'overflow-hidden',
+				'shadow-md',
+				'p-0',
+				'mt-20'
+			)}
 		>
 			<Pressable style={{ flex: 1 }} onPress={() => setTodayView(true)}>
 				<View
 					style={tw.style(
-						{ 'bg-blue-200': todayView },
+						{ 'bg-blue-100': todayView },
 						'py-5',
 						'px-5',
 						'grow',

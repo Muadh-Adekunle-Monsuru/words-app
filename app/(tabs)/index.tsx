@@ -1,15 +1,26 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { useState } from 'react';
 import { Text, View } from '@/components/Themed';
 import Buttons from '@/components/Button';
 import TodayFact from '@/components/todayFact';
 import RandomFact from '@/components/randomFact';
+import tw from 'twrnc';
 export default function TabOneScreen() {
 	const [todayView, setTodayView] = useState(true);
 	return (
-		<View style={styles.container}>
-			{todayView ? <TodayFact /> : <RandomFact />}
-			<Buttons setTodayView={setTodayView} todayView={todayView} />
+		<View style={{ flex: 1, backgroundColor: '#219ebc' }}>
+			<ScrollView style={tw.style(styles.container, 'gap-5')}>
+				<View
+					style={{
+						flex: 0.5,
+						justifyContent: 'center',
+						marginTop: '50%',
+					}}
+				>
+					{todayView ? <TodayFact /> : <RandomFact />}
+				</View>
+				<Buttons setTodayView={setTodayView} todayView={todayView} />
+			</ScrollView>
 		</View>
 	);
 }
@@ -17,7 +28,6 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center',
 		padding: 30,
 		backgroundColor: '#219ebc',
 	},

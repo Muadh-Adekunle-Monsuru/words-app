@@ -5,7 +5,7 @@ import { View, Text } from './Themed';
 import tw from 'twrnc';
 import axios from 'axios';
 import Buttons from './Button';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
 export default function RandomFact() {
 	const [quote, setQuote] = useState('');
@@ -32,7 +32,6 @@ export default function RandomFact() {
 	return (
 		<View
 			style={{
-				// flex: 0.4,
 				justifyContent: 'center',
 				backgroundColor: '#219ebc',
 			}}

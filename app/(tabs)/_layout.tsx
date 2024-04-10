@@ -38,10 +38,11 @@ export default function TabLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name='two'
+				name='synonym'
 				options={{
-					title: 'Tab Two',
-					tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
+					title: 'Synonym',
+					tabBarIcon: ({ color }) => <TabBarIcon name='book' color={color} />,
+					headerShown: false,
 				}}
 			/>
 			<Tabs.Screen
