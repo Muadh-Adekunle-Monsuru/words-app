@@ -6,8 +6,11 @@ import tw from 'twrnc';
 import axios from 'axios';
 import Buttons from './Button';
 import { StyleSheet } from 'react-native';
+import LottieView from 'lottie-react-native';
+import { useToast } from 'react-native-toast-notifications';
 export default function TodayFact() {
-	const [quote, setQuote] = useState('');
+	const [quote, setQuote] = useState(null);
+	const toast = useToast();
 	const getTodayQuote = async () => {
 		try {
 			const quote = await axios
@@ -18,22 +21,37 @@ export default function TodayFact() {
 				});
 		} catch (e) {
 			console.log('Error Getting Data', e);
-			alert('Error Getting Data' + e);
 			const value = await AsyncStorage.getItem('todayLocal');
 			setQuote(value);
-			console.log('From Local');
+			toast.show(`Error getting fact ${e}`, { type: 'warning' });
 		}
 	};
 
 	useEffect(() => {
 		getTodayQuote();
 	}, []);
+
+	const Animation = () => {
+		return (
+			<LottieView
+				source={require('../assets/loading.json')}
+				style={{ width: '100%', height: '100%' }}
+				autoPlay
+				loop
+			/>
+		);
+	};
+	const Content = () => {
+		return (
+			<Text style={tw.style('text-3xl', { fontFamily: 'Lora' })}>{quote}</Text>
+		);
+	};
 	return (
 		<View
 			style={{
 				// flex: 0.4,
 				justifyContent: 'center',
-				backgroundColor: '#219ebc',
+				backgroundColor: 'white',
 			}}
 		>
 			<Text style={styles.title}>Today's Fact:</Text>
@@ -42,7 +60,7 @@ export default function TodayFact() {
 				lightColor='black'
 				darkColor='rgba(255,255,255,0.1)'
 			/>
-			<Text style={tw.style('text-3xl', { fontFamily: 'Lora' })}>{quote}</Text>
+			{(quote && <Content />) || <Animation />}
 		</View>
 	);
 }

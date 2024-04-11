@@ -6,9 +6,11 @@ import tw from 'twrnc';
 import axios from 'axios';
 import Buttons from './Button';
 import { StyleSheet, ScrollView } from 'react-native';
-
+import LottieView from 'lottie-react-native';
+import { useToast } from 'react-native-toast-notifications';
 export default function RandomFact() {
 	const [quote, setQuote] = useState('');
+	const toast = useToast();
 	const GetRandomFact = async () => {
 		try {
 			const quote = await axios
@@ -18,22 +20,37 @@ export default function RandomFact() {
 					setQuote(response.data.text);
 				});
 		} catch (e) {
-			console.log('Error Getting Quote', e);
-			alert('Error Getting Data' + e);
+			console.log('Error Getting Fact', e);
 			const value = await AsyncStorage.getItem('randomLocal');
 			setQuote(value);
-			console.log('From Local');
+			toast.show(`Error getting fact ${e}`, { type: 'warning' });
 		}
 	};
 
 	useEffect(() => {
 		GetRandomFact();
 	}, []);
+
+	const Animation = () => {
+		return (
+			<LottieView
+				source={require('../assets/loading.json')}
+				style={{ width: '100%', height: '100%' }}
+				autoPlay
+				loop
+			/>
+		);
+	};
+	const Content = () => {
+		return (
+			<Text style={tw.style('text-3xl', { fontFamily: 'Lora' })}>{quote}</Text>
+		);
+	};
 	return (
 		<View
 			style={{
 				justifyContent: 'center',
-				backgroundColor: '#219ebc',
+				backgroundColor: 'white',
 			}}
 		>
 			<Text style={styles.title}>Random Fact:</Text>
@@ -42,7 +59,7 @@ export default function RandomFact() {
 				lightColor='black'
 				darkColor='rgba(255,255,255,0.1)'
 			/>
-			<Text style={tw.style('text-3xl', { fontFamily: 'Lora' })}>{quote}</Text>
+			{(quote && <Content />) || <Animation />}
 		</View>
 	);
 }

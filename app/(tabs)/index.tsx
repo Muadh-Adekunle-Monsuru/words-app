@@ -8,7 +8,7 @@ import tw from 'twrnc';
 export default function TabOneScreen() {
 	const [todayView, setTodayView] = useState(true);
 	return (
-		<View style={{ flex: 1, backgroundColor: '#219ebc' }}>
+		<View style={{ flex: 1, backgroundColor: 'white' }}>
 			<ScrollView style={tw.style(styles.container, 'gap-5')}>
 				<View
 					style={{
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 30,
-		backgroundColor: '#219ebc',
+		backgroundColor: 'white',
 	},
 	title: {
 		fontSize: 35,

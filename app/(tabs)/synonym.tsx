@@ -8,6 +8,7 @@ import { Button } from 'react-native';
 import { Link } from 'expo-router';
 export default function TabTwoScreen() {
 	const [word, setWord] = useState(null);
+	const [pressed, setPressed] = useState(false);
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 			<View style={styles.container}>
@@ -17,17 +18,17 @@ export default function TabTwoScreen() {
 							alignItems: 'center',
 							justifyContent: 'center',
 							width: '80%',
-							backgroundColor: '#343a40',
+							backgroundColor: 'white',
 						},
 						'gap-10'
 					)}
 				>
 					<TextInput
-						style={tw`w-full border-b-2 text-5xl text-white border-white`}
+						style={tw`w-full border-b-2 text-5xl text-black border-black`}
 						placeholder='Enter Word ...'
-						cursorColor={'white'}
+						cursorColor={'black'}
 						enterKeyHint='search'
-						placeholderTextColor='white'
+						placeholderTextColor='black'
 						onChangeText={setWord}
 						value={word}
 					/>
@@ -39,10 +40,24 @@ export default function TabTwoScreen() {
 						asChild
 					>
 						<Pressable
-							style={tw`py-3 border-2 w-full rounded-full flex flex-row justify-center items-center gap-5 border-white`}
+							style={tw.style(
+								'py-3',
+								'border-2',
+								'w-full',
+								'rounded-full',
+								'flex',
+								'flex-row',
+								'justify-center',
+								'items-center',
+								'gap-5',
+								'border-black',
+								{ 'bg-slate-300': pressed }
+							)}
+							onPressIn={() => setPressed(true)}
+							onPressOut={() => setPressed(false)}
 						>
-							<Text style={tw`text-xl text-white`}>Search</Text>
-							<FontAwesome name='search' size={20} color={'white'} />
+							<Text style={tw`text-xl text-black`}>Search</Text>
+							<FontAwesome name='search' size={20} color={'black'} />
 						</Pressable>
 					</Link>
 				</View>
@@ -56,7 +71,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: '#343a40',
+		backgroundColor: 'white',
 	},
 	title: {
 		fontSize: 20,

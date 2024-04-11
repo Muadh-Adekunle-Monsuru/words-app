@@ -45,14 +45,6 @@ export default function TabLayout() {
 					headerShown: false,
 				}}
 			/>
-			<Tabs.Screen
-				name='three'
-				options={{
-					title: 'Tab Three',
-					tabBarIcon: ({ color }) => <TabBarIcon name='check' color={color} />,
-					headerShown: false,
-				}}
-			/>
 		</Tabs>
 	);
 }

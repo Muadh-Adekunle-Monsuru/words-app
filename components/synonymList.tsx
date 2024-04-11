@@ -3,15 +3,20 @@ import { View, Text } from './Themed';
 import tw from 'twrnc';
 import { FontAwesome } from '@expo/vector-icons';
 import { ScrollView } from 'react-native';
+import { useToast } from 'react-native-toast-notifications';
 export default function SynonymList({ data }) {
+	const toast = useToast();
 	let synonymlist = [];
 	try {
 		data.result.map((data, index) => {
-			const array = data.synonyms.split(',');
-			array.map((element) => synonymlist.push(element));
+			try {
+				const array = data.synonyms.split(',');
+				array.map((element) => synonymlist.push(element));
+			} catch (e) {}
 		});
 	} catch (e) {
-		console.log('Error gettting synonyms', e);
+		// console.log('Error gettting synonyms', e);
+		// toast.show(`Error getting synonyms ${e}`, { type: 'warning' });
 	}
 
 	function uniqueElements(array) {

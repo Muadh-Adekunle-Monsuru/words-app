@@ -9,6 +9,10 @@ import SynonymList from '@/components/synonymList';
 import AntonymList from '@/components/antonymList';
 import { useLocalSearchParams } from 'expo-router';
 import axios from 'axios';
+import PartOfSpeech from '@/components/partofspeech';
+import LottieView from 'lottie-react-native';
+import { useToast } from 'react-native-toast-notifications';
+
 export default function DefinitionPage({ params }) {
 	const [show, setShow] = useState('definition');
 	const [response, setResponse] = useState({ result: [] });
@@ -17,6 +21,7 @@ export default function DefinitionPage({ params }) {
 	const [ant, setAnt] = useState(false);
 	const [received, setReceived] = useState(false);
 	const { definition } = useLocalSearchParams();
+	const toast = useToast();
 
 	useEffect(() => {
 		const fetchDef = async () => {
@@ -26,30 +31,16 @@ export default function DefinitionPage({ params }) {
 						`https://www.stands4.com/services/v2/syno.php?uid=12472&tokenid=VJQcvTHrB4isup5E&word=${definition}&format=json`
 					)
 					.then((response) => {
-						console.log(response.data);
 						setResponse(response.data);
 						setReceived(true);
-						getPart();
 					});
 			} catch (e) {
 				console.log('Error fetching definition', e);
+				toast.show(`Error fetching definition ${e}`, { type: 'warning' });
 			}
 		};
 		fetchDef();
 	}, []);
-	const partOfSpeech = [];
-	const getPart = () => {
-		try {
-			response.result.map((data) => {
-				!partOfSpeech.includes(data.partofspeech)
-					? partOfSpeech.push(data.partofspeech)
-					: null;
-			});
-			console.log(partOfSpeech);
-		} catch (e) {
-			console.log(e);
-		}
-	};
 
 	const changeView = (componentToShow) => {
 		switch (componentToShow) {
@@ -66,15 +57,23 @@ export default function DefinitionPage({ params }) {
 				return <DefinitionList data={response} />; // Default to Component1
 		}
 	};
+	const Animation = () => {
+		return (
+			<LottieView
+				source={require('../assets/loading.json')}
+				style={{ width: '100%', height: '100%' }}
+				autoPlay
+				loop
+			/>
+		);
+	};
 	return (
 		<View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
 			<View style={{ flex: 0.2 }}>
 				<Text style={tw.style({ fontFamily: 'LoraBold' }, 'text-5xl')}>
 					{definition}
 				</Text>
-				<View>
-					<Text style={tw`p-2 text-gray-500`}>{partOfSpeech.toString()}</Text>
-				</View>
+				<View>{received && <PartOfSpeech data={response} />}</View>
 				<View
 					style={styles.separator}
 					lightColor='#dee2e6'
@@ -126,7 +125,9 @@ export default function DefinitionPage({ params }) {
 				</View>
 				<View style={styles.separator} lightColor='#dee2e6' />
 			</View>
-			<View style={{ flex: 0.5 }}>{received && changeView(show)}</View>
+			<View style={{ flex: 0.5 }}>
+				{(received && changeView(show)) || <Animation />}
+			</View>
 		</View>
 	);
 }

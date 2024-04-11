@@ -3,15 +3,20 @@ import { View, Text } from './Themed';
 import tw from 'twrnc';
 import { FontAwesome } from '@expo/vector-icons';
 import { ScrollView } from 'react-native';
+import { useToast } from 'react-native-toast-notifications';
 export default function AntonymList({ data }) {
+	const toast = useToast();
 	let synonymlist = [];
 	try {
 		data.result.map((data, index) => {
-			const array = data.antonyms.split(',');
-			array.map((element) => synonymlist.push(element));
+			try {
+				const array = data.antonyms.split(',');
+				array.map((element) => synonymlist.push(element));
+			} catch (e) {}
 		});
 	} catch (e) {
-		console.log('error getting antonym', e);
+		// console.log('error getting antonym', e);
+		// toast.show(`Error getting antonym ${e}`, { type: 'warning' });
 	}
 	function uniqueElements(array) {
 		return Array.from(new Set(array));
